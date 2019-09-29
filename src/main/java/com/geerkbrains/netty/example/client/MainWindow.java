@@ -43,7 +43,7 @@ public class MainWindow extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         Scene scene = new Scene(grid, 400, 400);
-        Text scenetitle = new Text("Welcome");
+        Text scenetitle = new Text("Cloud box");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
@@ -69,6 +69,7 @@ public class MainWindow extends Application {
 
             @Override
             public void handle(ActionEvent e) {
+
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
                 Parent root = null;
                 try {
@@ -81,7 +82,7 @@ public class MainWindow extends Application {
 
                 primaryStage.setScene(scene);
                 primaryStage.show();
-                new Controller().goToWindow2(e);
+       //         new Controller().goToWindow2(e);
             }
         });
         primaryStage.setTitle("Box Client");
