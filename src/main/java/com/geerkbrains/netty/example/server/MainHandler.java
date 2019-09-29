@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.geerkbrains.netty.example.common.FileList;
-import com.geerkbrains.netty.example.common.FileMessage;
-import com.geerkbrains.netty.example.common.FileRequest;
+import com.geerkbrains.netty.example.common.*;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -56,6 +54,11 @@ public class MainHandler extends ChannelInboundHandlerAdapter {
                 FileMessage fm = (FileMessage) msg;
                 if(!Files.exists(Paths.get("server_storage/" + fm.getFilename()))){
                     Files.write(Paths.get("server_storage/" + fm.getFilename()),fm.getData());
+                }
+            }else if (msg instanceof ClientConnection){
+                ClientConnection cl = (ClientConnection) msg;
+                if(cl.getLogin().equals("1")){
+                    ctx.writeAndFlush(new Approve(true));
                 }
             }
         } finally {

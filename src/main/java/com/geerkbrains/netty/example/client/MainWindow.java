@@ -1,9 +1,13 @@
 package com.geerkbrains.netty.example.client;
 
+import com.geerkbrains.netty.example.client.protocol.NettyNetwork;
+import com.geerkbrains.netty.example.common.ClientConnection;
+import com.geerkbrains.netty.example.common.FileRequest;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -22,8 +26,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainWindow extends Application {
+public class MainWindow extends Application implements Initializable {
     @Override
     public void start(Stage primaryStage) throws Exception {
         PasswordField passwordField = new PasswordField();
@@ -69,7 +75,14 @@ public class MainWindow extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        NettyNetwork.getInstance().start();
+//                    }
+//                }).start();
+                NettyNetwork.currentChannel.writeAndFlush(new ClientConnection(userTextField.getText(), passwordField.getText()));
+                if(ClientDownload.isOk){
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
                 Parent root = null;
                 try {
@@ -82,8 +95,8 @@ public class MainWindow extends Application {
 
                 primaryStage.setScene(scene);
                 primaryStage.show();
-       //         new Controller().goToWindow2(e);
-            }
+
+            }}
         });
         primaryStage.setTitle("Box Client");
         primaryStage.setScene(scene);
@@ -92,6 +105,17 @@ public class MainWindow extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NettyNetwork.getInstance().start();
+            }
+        }).start();
     }
 }
 

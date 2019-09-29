@@ -26,7 +26,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ResourceBundle;
 
-public class Main extends Application implements Initializable {
+public class Main extends Application
+//        implements Initializable
+{
 
 
 //
@@ -170,20 +172,20 @@ public class Main extends Application implements Initializable {
         NettyNetwork.currentChannel.writeAndFlush(new FileRequest("list", "delete"));
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                NettyNetwork.getInstance().start();
-            }
-        }).start();
-
-        refreshLocalFilesList();
-        //refreshServerFilesList();
-        selection();
-    }
+//    @Override
+//    public void initialize(URL location, ResourceBundle resources) {
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                NettyNetwork.getInstance().start();
+//            }
+//        }).start();
+//
+//        refreshLocalFilesList();
+//        //refreshServerFilesList();
+//        selection();
+//    }
     @Override
     public void start(Stage primaryStage) throws Exception {
 //

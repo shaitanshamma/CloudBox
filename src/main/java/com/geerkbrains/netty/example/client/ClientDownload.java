@@ -1,5 +1,6 @@
 package com.geerkbrains.netty.example.client;
 
+import com.geerkbrains.netty.example.common.Approve;
 import com.geerkbrains.netty.example.common.FileList;
 import com.geerkbrains.netty.example.common.FileMessage;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,6 +14,8 @@ import java.util.List;
 
 
 public class ClientDownload extends ChannelInboundHandlerAdapter {
+
+    static boolean isOk;
 
     Main controller;
 
@@ -39,6 +42,11 @@ public class ClientDownload extends ChannelInboundHandlerAdapter {
                 for (String s : fl.getSerfilesList()) {
 //                    controller.serfilesList.getItems().add(s);
                     serverList.add(s);
+                }
+            }else if (msg instanceof Approve){
+                Approve ok = (Approve) msg;
+                if(ok.isAuthorizated()){
+                    isOk = true;
                 }
             }
         } finally {
