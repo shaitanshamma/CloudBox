@@ -33,12 +33,12 @@ public class ClientDownload extends ChannelInboundHandlerAdapter {
                 FileMessage fr = (FileMessage) msg;
                 Files.write(Paths.get("client_storage/" + fr.getFilename()), fr.getData());
             } else if (msg instanceof FileList) {
-                //serverList.clear();
-                controller.serfilesList.getItems().clear();
+                serverList.clear();
+//              controller.serfilesList.getItems().clear();
                 FileList fl = (FileList) msg;
                 for (String s : fl.getSerfilesList()) {
-                    controller.serfilesList.getItems().add(s);
-                    //serverList.add(s);
+//                    controller.serfilesList.getItems().add(s);
+                    serverList.add(s);
                 }
             }
         } finally {

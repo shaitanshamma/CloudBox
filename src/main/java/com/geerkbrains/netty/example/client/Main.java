@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 
 public class Main extends Application implements Initializable {
 
-//    private static Main controller;
+
 //
 //    public Main(Main controller) {
 //        this.controller = controller;
@@ -159,13 +159,29 @@ public class Main extends Application implements Initializable {
     }
 
     public void refreshServerFilesList() {
-       // getServerFileList();
-        NettyNetwork.currentChannel.writeAndFlush(new FileRequest("list", "delete"));
+//       // getServerFileList();
+//        NettyNetwork.currentChannel.writeAndFlush(new FileRequest("list", "delete"));
 //        serfilesList.getItems().clear();
 //        for (String s : ClientDownload.serverList ) {
 //            serfilesList.getItems().add(s);
 //        }
+        if (Platform.isFxApplicationThread()) {
+            NettyNetwork.currentChannel.writeAndFlush(new FileRequest("list", "delete"));
+            serfilesList.getItems().clear();
+            for (String s : ClientDownload.serverList) {
+                serfilesList.getItems().add(s);
+            }
+        } else {
+            Platform.runLater(() -> {
+                NettyNetwork.currentChannel.writeAndFlush(new FileRequest("list", "delete"));
+                serfilesList.getItems().clear();
+                for (String s : ClientDownload.serverList) {
+                    serfilesList.getItems().add(s);
+                }
+            });
+        }
     }
+
 
     public void pressDownKey() {
         NettyNetwork.currentChannel.writeAndFlush(new FileRequest(tfFileName.getText(), "down"));
@@ -179,8 +195,8 @@ public class Main extends Application implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        tfFileName.clear();
         refreshServerFilesList();
+        tfFileName.clear();
     }
 
     public void pressDellatServerButton(ActionEvent actionEvent) {
@@ -214,6 +230,7 @@ public class Main extends Application implements Initializable {
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("Box Client");
         Scene scene = new Scene(root);
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
