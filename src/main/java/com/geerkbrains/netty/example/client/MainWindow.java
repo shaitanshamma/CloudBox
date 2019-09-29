@@ -3,8 +3,10 @@ package com.geerkbrains.netty.example.client;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,6 +20,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainWindow extends Application {
     @Override
@@ -65,8 +69,18 @@ public class MainWindow extends Application {
 
             @Override
             public void handle(ActionEvent e) {
-//                actiontarget.setFill(Color.FIREBRICK);
-//                actiontarget.setText("Sign in button pressed");
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
+                Parent root = null;
+                try {
+                    root = fxmlLoader.load();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                primaryStage.setTitle("Box Client");
+                Scene scene = new Scene(root);
+
+                primaryStage.setScene(scene);
+                primaryStage.show();
                 new Controller().goToWindow2(e);
             }
         });
