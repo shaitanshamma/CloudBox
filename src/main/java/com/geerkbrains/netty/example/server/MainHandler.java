@@ -22,9 +22,9 @@ public class MainHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("Client connected...");
         System.out.println(ctx.channel());
-        serfilesList.clear();
-        Files.list(Paths.get("server_storage")).map(p -> p.getFileName().toString()).forEach(o -> serfilesList.add(o));
-        ctx.writeAndFlush(new FileList(serfilesList));
+//        serfilesList.clear();
+//        Files.list(Paths.get("server_storage")).map(p -> p.getFileName().toString()).forEach(o -> serfilesList.add(o));
+//        ctx.writeAndFlush(new FileList(serfilesList));
     }
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

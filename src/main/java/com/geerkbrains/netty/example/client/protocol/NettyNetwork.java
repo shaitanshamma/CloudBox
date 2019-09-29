@@ -21,11 +21,6 @@ public class NettyNetwork {
     static Main controller;
 
 
-    public NettyNetwork(Main controller) {
-        this.controller = controller;
-    }
-
-
     public NettyNetwork() {
     }
 

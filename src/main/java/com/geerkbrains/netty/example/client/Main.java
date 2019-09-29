@@ -26,20 +26,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ResourceBundle;
 
-public class Main extends Application
-//        implements Initializable
+import static javafx.application.Application.launch;
+
+public class Main
 {
-
-
-//
-//    public Main(Main controller) {
-//        this.controller = controller;
-//    }
-//
-////
-//    public static Main getController(){
-//        return controller;
-//    }
 
     @FXML
     TextField tfFileName;
@@ -186,8 +176,8 @@ public class Main extends Application
 //        //refreshServerFilesList();
 //        selection();
 //    }
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+//    @Override
+//    public void start(Stage primaryStage) throws Exception {
 //
 //        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
 //        Parent root = fxmlLoader.load();
@@ -196,10 +186,10 @@ public class Main extends Application
 //
 //        primaryStage.setScene(scene);
 //        primaryStage.show();
-    }
+//    }
 
-    public static void main(String[] args) throws Exception {
-        launch(args);
-    }
+//    public static void main(String[] args) throws Exception {
+//        launch(args);
+//    }
 }
 

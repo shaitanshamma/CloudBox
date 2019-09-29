@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -30,18 +31,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainWindow extends Application implements Initializable {
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        PasswordField passwordField = new PasswordField();
-        TextField loginField = new TextField();
-        Button button = new Button("Show Password");
-        Label pass = new Label("pass");
-        Label login = new Label("login");
-
-        button.setOnAction((EventHandler<ActionEvent>) event -> {
-            String password = passwordField.getText();
-            pass.setText(password);
-        });
+//        PasswordField passwordField = new PasswordField();
+//        TextField loginField = new TextField();
+//        Button button = new Button("Show Password");
+//        Label pass = new Label("pass");
+//        Label login = new Label("login");
+//
+//        button.setOnAction((EventHandler<ActionEvent>) event -> {
+//            String password = passwordField.getText();
+//            pass.setText(password);
+//        });
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -70,37 +72,32 @@ public class MainWindow extends Application implements Initializable {
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 1, 4);
         final Text actiontarget = new Text();
+        primaryStage.setTitle("Box Client");
+        primaryStage.setScene(scene);
+        primaryStage.show();
         grid.add(actiontarget, 1, 6);
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        NettyNetwork.getInstance().start();
-//                    }
-//                }).start();
-                NettyNetwork.currentChannel.writeAndFlush(new ClientConnection(userTextField.getText(), passwordField.getText()));
-                if(ClientDownload.isOk){
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
-                Parent root = null;
-                try {
+                NettyNetwork.getInstance().start();
+                NettyNetwork.currentChannel.writeAndFlush(new ClientConnection(userTextField.getText(), pwBox.getText()));
+                if (!ClientDownload.isOk) {
+                    Parent root;
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/main.fxml"));
+                    try {
                     root = fxmlLoader.load();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                    primaryStage.setTitle("Box Client");
+                    Scene scene = new Scene(root);
+                    primaryStage.setScene(scene);
+                    primaryStage.show();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
-                primaryStage.setTitle("Box Client");
-                Scene scene = new Scene(root);
-
-                primaryStage.setScene(scene);
-                primaryStage.show();
-
-            }}
+            }
         });
-        primaryStage.setTitle("Box Client");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     public static void main(String[] args) {
@@ -109,8 +106,7 @@ public class MainWindow extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-        new Thread(new Runnable() {
+                new Thread(new Runnable() {
             @Override
             public void run() {
                 NettyNetwork.getInstance().start();
@@ -118,4 +114,3 @@ public class MainWindow extends Application implements Initializable {
         }).start();
     }
 }
-
